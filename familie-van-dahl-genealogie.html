@@ -1,527 +1,162 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>Familie van Dahl Genealogie</title>
-<link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap" rel="stylesheet">
-<style>
-:root, [data-theme="light"] {
-  --color-bg: #f7f6f2;
-  --color-surface: #faf9f6;
-  --color-surface-2: #fcfbf9;
-  --color-surface-offset: #f3f0ec;
-  --color-divider: #e0ded9;
-  --color-border: #d4d1ca;
-  --color-text: #28251d;
-  --color-text-muted: #7a7974;
-  --color-text-faint: #bab9b4;
-  --color-primary: #964219;
-  --color-primary-hover: #713417;
-  --color-primary-active: #4b2614;
-  --color-success: #437a22;
-  --color-error: #a12c7b;
-  --text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
-  --text-sm: clamp(0.875rem, 0.8rem + 0.35vw, 1rem);
-  --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
-  --text-lg: clamp(1.125rem, 1rem + 0.75vw, 1.5rem);
-  --text-xl: clamp(1.5rem, 1.2rem + 1.25vw, 2.25rem);
-  --space-1: 0.25rem;
-  --space-2: 0.5rem;
-  --space-3: 0.75rem;
-  --space-4: 1rem;
-  --space-6: 1.5rem;
-  --space-8: 2rem;
-  --space-12: 3rem;
-  --space-16: 4rem;
-  --radius-sm: 0.375rem;
-  --radius-md: 0.5rem;
-  --radius-lg: 0.75rem;
-  --radius-full: 9999px;
-  --shadow-sm: 0 1px 2px oklch(0.2 0.01 80 / 0.06);
-  --shadow-md: 0 4px 12px oklch(0.2 0.01 80 / 0.08);
-  --shadow-lg: 0 12px 32px oklch(0.2 0.01 80 / 0.12);
-  --font-body: 'General Sans', -apple-system, sans-serif;
-}
-
-[data-theme="dark"] {
-  --color-bg: #171614;
-  --color-surface: #1c1b19;
-  --color-surface-2: #201f1d;
-  --color-surface-offset: #1d1c1a;
-  --color-divider: #262523;
-  --color-border: #393836;
-  --color-text: #cdccca;
-  --color-text-muted: #797876;
-  --color-text-faint: #5a5957;
-  --color-primary: #bb653b;
-  --color-primary-hover: #b95525;
-  --color-primary-active: #993d10;
-  --color-success: #6daa45;
-  --color-error: #d163a7;
-  --shadow-sm: 0 1px 2px oklch(0 0 0 / 0.2);
-  --shadow-md: 0 4px 12px oklch(0 0 0 / 0.3);
-  --shadow-lg: 0 12px 32px oklch(0 0 0 / 0.4);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme]) {
-    --color-bg: #171614;
-    --color-surface: #1c1b19;
-    --color-surface-2: #201f1d;
-    --color-surface-offset: #1d1c1a;
-    --color-divider: #262523;
-    --color-border: #393836;
-    --color-text: #cdccca;
-    --color-text-muted: #797876;
-    --color-text-faint: #5a5957;
-    --color-primary: #bb653b;
-    --color-primary-hover: #b95525;
-    --color-primary-active: #993d10;
-    --color-success: #6daa45;
-    --color-error: #d163a7;
-    --shadow-sm: 0 1px 2px oklch(0 0 0 / 0.2);
-    --shadow-md: 0 4px 12px oklch(0 0 0 / 0.3);
-    --shadow-lg: 0 12px 32px oklch(0 0 0 / 0.4);
-  }
-}
-
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-html {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  scroll-behavior: smooth;
-  -webkit-tap-highlight-color: transparent;
-  -webkit-text-size-adjust: none;
-}
-
-body {
-  font-family: var(--font-body);
-  font-size: var(--text-base);
-  color: var(--color-text);
-  background-color: var(--color-bg);
-  line-height: 1.6;
-  min-height: 100vh;
-  overflow-x: hidden;
-}
-
-.app-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: var(--space-4);
-}
-
-header {
-  background: var(--color-surface);
-  border-bottom: 1px solid var(--color-border);
-  padding: var(--space-4);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  box-shadow: var(--shadow-sm);
-}
-
-.header-content {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: var(--space-4);
-  flex-wrap: wrap;
-}
-
-h1 {
-  font-size: var(--text-xl);
-  font-weight: 700;
-  color: var(--color-primary);
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-}
-
-.header-actions {
-  display: flex;
-  gap: var(--space-2);
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-.btn {
-  padding: var(--space-2) var(--space-4);
-  background: var(--color-primary);
-  color: white;
-  border: none;
-  border-radius: var(--radius-md);
-  font-size: var(--text-sm);
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 180ms cubic-bezier(0.16, 1, 0.3, 1);
-  min-height: 44px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-2);
-  white-space: nowrap;
-}
-
-.btn:active {
-  transform: scale(0.96);
-  background: var(--color-primary-active);
-}
-
-.btn-secondary {
-  background: var(--color-surface-offset);
-  color: var(--color-text);
-}
-
-.btn-secondary:active {
-  background: var(--color-divider);
-}
-
-.theme-toggle {
-  background: var(--color-surface-offset);
-  width: 44px;
-  height: 44px;
-  border-radius: var(--radius-full);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--color-text);
-}
-
-nav {
-  background: var(--color-surface);
-  border-radius: var(--radius-lg);
-  padding: var(--space-2);
-  margin: var(--space-6) 0;
-  display: flex;
-  gap: var(--space-2);
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-}
-
-.nav-btn {
-  padding: var(--space-3) var(--space-4);
-  background: transparent;
-  color: var(--color-text-muted);
-  border: none;
-  border-radius: var(--radius-md);
-  font-size: var(--text-sm);
-  font-weight: 600;
-  cursor: pointer;
-  white-space: nowrap;
-  min-height: 44px;
-  transition: all 180ms;
-}
-
-.nav-btn.active {
-  background: var(--color-primary);
-  color: white;
-}
-
-.view {
-  display: none;
-}
-
-.view.active {
-  display: block;
-}
-
-.person-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
-  gap: var(--space-4);
-  margin-top: var(--space-6);
-}
-
-.person-card {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  padding: var(--space-4);
-  cursor: pointer;
-  transition: all 180ms;
-}
-
-.person-card:active {
-  transform: scale(0.98);
-  box-shadow: var(--shadow-md);
-}
-
-.person-header {
-  display: flex;
-  gap: var(--space-3);
-  align-items: flex-start;
-  margin-bottom: var(--space-3);
-}
-
-.avatar {
-  width: 48px;
-  height: 48px;
-  border-radius: var(--radius-full);
-  background: var(--color-surface-offset);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: var(--text-lg);
-  flex-shrink: 0;
-}
-
-.person-name {
-  font-size: var(--text-lg);
-  font-weight: 600;
-  margin-bottom: var(--space-1);
-}
-
-.person-dates {
-  font-size: var(--text-sm);
-  color: var(--color-text-muted);
-}
-
-.person-meta {
-  font-size: var(--text-sm);
-  color: var(--color-text-muted);
-  margin-top: var(--space-2);
-}
-
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: oklch(0 0 0 / 0.5);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  padding: var(--space-4);
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-}
-
-.modal.active {
-  display: flex;
-}
-
-.modal-content {
-  background: var(--color-surface);
-  border-radius: var(--radius-lg);
-  padding: var(--space-6);
-  max-width: 600px;
-  width: 100%;
-  max-height: 90vh;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  box-shadow: var(--shadow-lg);
-}
-
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: var(--space-6);
-}
-
-.modal-title {
-  font-size: var(--text-xl);
-  font-weight: 700;
-  color: var(--color-primary);
-}
-
-.close-btn {
-  background: var(--color-surface-offset);
-  border: none;
-  width: 36px;
-  height: 36px;
-  border-radius: var(--radius-full);
-  cursor: pointer;
-  font-size: 20px;
-  color: var(--color-text-muted);
-}
-
-.detail-section {
-  margin-bottom: var(--space-6);
-}
-
-.detail-label {
-  font-size: var(--text-sm);
-  font-weight: 600;
-  color: var(--color-text-muted);
-  margin-bottom: var(--space-2);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.detail-value {
-  font-size: var(--text-base);
-  color: var(--color-text);
-  margin-bottom: var(--space-4);
-}
-
-.form-group {
-  margin-bottom: var(--space-4);
-}
-
-label {
-  display: block;
-  font-size: var(--text-sm);
-  font-weight: 600;
-  color: var(--color-text);
-  margin-bottom: var(--space-2);
-}
-
-input, select, textarea {
-  width: 100%;
-  padding: var(--space-3);
-  background: var(--color-bg);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  font-size: var(--text-base);
-  color: var(--color-text);
-  font-family: var(--font-body);
-  min-height: 44px;
-}
-
-textarea {
-  min-height: 100px;
-  resize: vertical;
-}
-
-input:focus, select:focus, textarea:focus {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 2px;
-}
-
-.search-box {
-  position: relative;
-  margin-bottom: var(--space-4);
-}
-
-.search-box input {
-  padding-left: var(--space-12);
-}
-
-.search-icon {
-  position: absolute;
-  left: var(--space-3);
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--color-text-muted);
-}
-
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
-  gap: var(--space-4);
-  margin-top: var(--space-6);
-}
-
-.stat-card {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  padding: var(--space-4);
-  text-align: center;
-}
-
-.stat-value {
-  font-size: var(--text-xl);
-  font-weight: 700;
-  color: var(--color-primary);
-  margin-bottom: var(--space-2);
-}
-
-.stat-label {
-  font-size: var(--text-sm);
-  color: var(--color-text-muted);
-}
-
-.timeline {
-  margin-top: var(--space-6);
-}
-
-.timeline-group {
-  margin-bottom: var(--space-8);
-}
-
-.timeline-decade {
-  font-size: var(--text-lg);
-  font-weight: 700;
-  color: var(--color-primary);
-  margin-bottom: var(--space-4);
-  padding-bottom: var(--space-2);
-  border-bottom: 2px solid var(--color-border);
-}
-
-.timeline-event {
-  padding: var(--space-3);
-  background: var(--color-surface);
-  border-left: 3px solid var(--color-primary);
-  margin-bottom: var(--space-3);
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  transition: all 180ms;
-}
-
-.timeline-event:active {
-  transform: translateX(4px);
-}
-
-.empty-state {
-  text-align: center;
-  padding: var(--space-16) var(--space-4);
-  color: var(--color-text-muted);
-}
-
-.empty-state svg {
-  width: 64px;
-  height: 64px;
-  margin: 0 auto var(--space-4);
-  opacity: 0.5;
-}
-
-.storage-status {
-  position: fixed;
-  bottom: var(--space-4);
-  right: var(--space-4);
-  background: var(--color-success);
-  color: white;
-  padding: var(--space-3) var(--space-4);
-  border-radius: var(--radius-full);
-  font-size: var(--text-sm);
-  font-weight: 600;
-  box-shadow: var(--shadow-lg);
-  opacity: 0;
-  transition: opacity 300ms;
-  pointer-events: none;
-  z-index: 2000;
-}
-
-.storage-status.show {
-  opacity: 1;
-}
-
-@media (max-width: 768px) {
-  .header-content {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .header-actions {
-    justify-content: center;
-  }
-
-  nav {
-    justify-content: flex-start;
-  }
-}
-</style>
+  <meta charset="UTF-8">
+  <title>Familie van Dahl – Genealogie (Vollversion)</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap" rel="stylesheet">
+  <style>
+    :root,[data-theme="light"]{
+      --color-bg:#f7f6f2;
+      --color-surface:#faf9f6;
+      --color-surface-2:#fcfbf9;
+      --color-surface-offset:#f3f0ec;
+      --color-divider:#e0ded9;
+      --color-border:#d4d1ca;
+      --color-text:#28251d;
+      --color-text-muted:#7a7974;
+      --color-text-faint:#bab9b4;
+      --color-primary:#964219;
+      --color-primary-hover:#713417;
+      --color-primary-active:#4b2614;
+      --color-success:#437a22;
+      --color-error:#a12c7b;
+      --text-xs:clamp(.75rem,.7rem + .25vw,.875rem);
+      --text-sm:clamp(.875rem,.8rem + .35vw,1rem);
+      --text-base:clamp(1rem,.95rem + .25vw,1.125rem);
+      --text-lg:clamp(1.125rem,1rem + .75vw,1.5rem);
+      --text-xl:clamp(1.5rem,1.2rem + 1.25vw,2.25rem);
+      --space-1:.25rem;
+      --space-2:.5rem;
+      --space-3:.75rem;
+      --space-4:1rem;
+      --space-6:1.5rem;
+      --space-8:2rem;
+      --space-12:3rem;
+      --space-16:4rem;
+      --radius-sm:.375rem;
+      --radius-md:.5rem;
+      --radius-lg:.75rem;
+      --radius-full:9999px;
+      --shadow-sm:0 1px 2px oklch(.2 .01 80 / .06);
+      --shadow-md:0 4px 12px oklch(.2 .01 80 / .08);
+      --shadow-lg:0 12px 32px oklch(.2 .01 80 / .12);
+      --font-body:'General Sans',-apple-system,sans-serif
+    }
+    [data-theme="dark"]{
+      --color-bg:#171614;
+      --color-surface:#1c1b19;
+      --color-surface-2:#201f1d;
+      --color-surface-offset:#1d1c1a;
+      --color-divider:#262523;
+      --color-border:#393836;
+      --color-text:#cdccca;
+      --color-text-muted:#797876;
+      --color-text-faint:#5a5957;
+      --color-primary:#bb653b;
+      --color-primary-hover:#b95525;
+      --color-primary-active:#993d10;
+      --color-success:#6daa45;
+      --color-error:#d163a7;
+      --shadow-sm:0 1px 2px oklch(0 0 0 / .2);
+      --shadow-md:0 4px 12px oklch(0 0 0 / .3);
+      --shadow-lg:0 12px 32px oklch(0 0 0 / .4)
+    }
+    @media(prefers-color-scheme:dark){
+      :root:not([data-theme]){
+        --color-bg:#171614;
+        --color-surface:#1c1b19;
+        --color-surface-2:#201f1d;
+        --color-surface-offset:#1d1c1a;
+        --color-divider:#262523;
+        --color-border:#393836;
+        --color-text:#cdccca;
+        --color-text-muted:#797876;
+        --color-text-faint:#5a5957;
+        --color-primary:#bb653b;
+        --color-primary-hover:#b95525;
+        --color-primary-active:#993d10;
+        --color-success:#6daa45;
+        --color-error:#d163a7;
+        --shadow-sm:0 1px 2px oklch(0 0 0 / .2);
+        --shadow-md:0 4px 12px oklch(0 0 0 / .3);
+        --shadow-lg:0 12px 32px oklch(0 0 0 / .4)
+      }
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;scroll-behavior:smooth;-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:none}
+    body{font-family:var(--font-body);font-size:var(--text-base);color:var(--color-text);background-color:var(--color-bg);line-height:1.6;min-height:100vh;overflow-x:hidden}
+    .app-container{max-width:1200px;margin:0 auto;padding:var(--space-4)}
+    header{background:var(--color-surface);border-bottom:1px solid var(--color-border);padding:var(--space-4);position:sticky;top:0;z-index:100;box-shadow:var(--shadow-sm)}
+    .header-content{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:var(--space-4);flex-wrap:wrap}
+    h1{font-size:var(--text-xl);font-weight:700;color:var(--color-primary);display:flex;align-items:center;gap:var(--space-2)}
+    .header-actions{display:flex;gap:var(--space-2);align-items:center;flex-wrap:wrap}
+    .btn{padding:var(--space-2) var(--space-4);background:var(--color-primary);color:#fff;border:none;border-radius:var(--radius-md);font-size:var(--text-sm);font-weight:600;cursor:pointer;transition:all 180ms cubic-bezier(.16,1,.3,1);min-height:44px;display:inline-flex;align-items:center;justify-content:center;gap:var(--space-2);white-space:nowrap}
+    .btn:active{transform:scale(.96);background:var(--color-primary-active)}
+    .btn-secondary{background:var(--color-surface-offset);color:var(--color-text)}
+    .btn-secondary:active{background:var(--color-divider)}
+    .btn-danger{background:var(--color-error)}
+    .btn-danger:active{background:#7d1e5e}
+    .theme-toggle{background:var(--color-surface-offset);width:44px;height:44px;border-radius:var(--radius-full);display:flex;align-items:center;justify-content:center;color:var(--color-text)}
+    nav{background:var(--color-surface);border-radius:var(--radius-lg);padding:var(--space-2);margin:var(--space-6) 0;display:flex;gap:var(--space-2);overflow-x:auto;-webkit-overflow-scrolling:touch}
+    .nav-btn{padding:var(--space-3) var(--space-4);background:0 0;color:var(--color-text-muted);border:none;border-radius:var(--radius-md);font-size:var(--text-sm);font-weight:600;cursor:pointer;white-space:nowrap;min-height:44px;transition:all 180ms}
+    .nav-btn.active{background:var(--color-primary);color:#fff}
+    .view{display:none}
+    .view.active{display:block}
+    .search-box{position:relative;margin-bottom:var(--space-4)}
+    .search-box input{padding-left:var(--space-12)}
+    .search-icon{position:absolute;left:var(--space-3);top:50%;transform:translateY(-50%);color:var(--color-text-muted)}
+    input,select,textarea{width:100%;padding:var(--space-3);background:var(--color-bg);border:1px solid var(--color-border);border-radius:var(--radius-md);font-size:var(--text-base);color:var(--color-text);font-family:var(--font-body);min-height:44px}
+    textarea{min-height:100px;resize:vertical}
+    input:focus,select:focus,textarea:focus{outline:2px solid var(--color-primary);outline-offset:2px}
+    .person-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(280px,100%),1fr));gap:var(--space-4);margin-top:var(--space-6)}
+    .person-card{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:var(--space-4);cursor:pointer;transition:all 180ms}
+    .person-card:active{transform:scale(.98);box-shadow:var(--shadow-md)}
+    .person-header{display:flex;gap:var(--space-3);align-items:flex-start;margin-bottom:var(--space-3)}
+    .avatar{width:48px;height:48px;border-radius:var(--radius-full);background:var(--color-primary);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:var(--text-lg);color:#fff;flex-shrink:0}
+    .person-name{font-size:var(--text-lg);font-weight:600;margin-bottom:var(--space-1)}
+    .person-dates{font-size:var(--text-sm);color:var(--color-text-muted)}
+    .person-meta{font-size:var(--text-sm);color:var(--color-text-muted);margin-top:var(--space-2)}
+    .modal{position:fixed;top:0;left:0;right:0;bottom:0;background:oklch(0 0 0 /.5);display:none;align-items:center;justify-content:center;z-index:1000;padding:var(--space-4);overflow-y:auto;-webkit-overflow-scrolling:touch}
+    .modal.active{display:flex}
+    .modal-content{background:var(--color-surface);border-radius:var(--radius-lg);padding:var(--space-6);max-width:700px;width:100%;max-height:90vh;overflow-y:auto;-webkit-overflow-scrolling:touch;box-shadow:var(--shadow-lg)}
+    .modal-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:var(--space-4)}
+    .modal-title{font-size:var(--text-xl);font-weight:700;color:var(--color-primary)}
+    .close-btn{background:var(--color-surface-offset);border:none;width:36px;height:36px;border-radius:var(--radius-full);cursor:pointer;font-size:20px;color:var(--color-text-muted)}
+    .detail-section{margin-bottom:var(--space-4)}
+    .detail-label{font-size:var(--text-sm);font-weight:600;color:var(--color-text-muted);margin-bottom:var(--space-2);text-transform:uppercase;letter-spacing:.5px}
+    .detail-value{font-size:var(--text-base);color:var(--color-text)}
+    .chips{display:flex;flex-wrap:wrap;gap:var(--space-2)}
+    .chip{padding:var(--space-1) var(--space-3);border-radius:var(--radius-full);font-size:var(--text-xs);background:var(--color-surface-offset);cursor:pointer}
+    .chips .chip:active{transform:scale(.96)}
+    .form-group{margin-bottom:var(--space-4)}
+    label{display:block;font-size:var(--text-sm);font-weight:600;color:var(--color-text);margin-bottom:var(--space-2)}
+    .form-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:var(--space-4)}
+    .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr));gap:var(--space-4);margin-top:var(--space-6)}
+    .stat-card{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:var(--space-4);text-align:center}
+    .stat-value{font-size:var(--text-xl);font-weight:700;color:var(--color-primary);margin-bottom:var(--space-2)}
+    .stat-label{font-size:var(--text-sm);color:var(--color-text-muted)}
+    .timeline{margin-top:var(--space-6)}
+    .timeline-group{margin-bottom:var(--space-8)}
+    .timeline-decade{font-size:var(--text-lg);font-weight:700;color:var(--color-primary);margin-bottom:var(--space-4);padding-bottom:var(--space-2);border-bottom:2px solid var(--color-border)}
+    .timeline-event{padding:var(--space-3);background:var(--color-surface);border-left:3px solid var(--color-primary);margin-bottom:var(--space-3);border-radius:var(--radius-sm);cursor:pointer;transition:all 180ms}
+    .timeline-event:active{transform:translateX(4px)}
+    .tree-container{margin-top:var(--space-6);overflow-x:auto;padding-bottom:var(--space-4)}
+    .tree-level{display:flex;justify-content:center;gap:var(--space-4);margin-bottom:var(--space-6);flex-wrap:wrap}
+    .tree-node{min-width:180px;max-width:220px;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:var(--space-3);text-align:center;cursor:pointer;box-shadow:var(--shadow-sm)}
+    .tree-node:active{transform:scale(.97);box-shadow:var(--shadow-md)}
+    .tree-name{font-weight:600;margin-bottom:var(--space-1)}
+    .tree-years{font-size:var(--text-sm);color:var(--color-text-muted)}
+    .tree-links{width:100%;text-align:center;margin-bottom:var(--space-2);color:var(--color-text-faint);font-size:var(--text-xs)}
+    .empty-state{text-align:center;padding:var(--space-16) var(--space-4);color:var(--color-text-muted)}
+    .storage-status{position:fixed;bottom:var(--space-4);right:var(--space-4);background:var(--color-success);color:#fff;padding:var(--space-3) var(--space-4);border-radius:var(--radius-full);font-size:var(--text-sm);font-weight:600;box-shadow:var(--shadow-lg);opacity:0;transition:opacity 300ms;pointer-events:none;z-index:2000}
+    .storage-status.show{opacity:1}
+    @media(max-width:768px){
+      .header-content{flex-direction:column;align-items:stretch}
+      .header-actions{justify-content:center}
+      nav{justify-content:flex-start}
+    }
+  </style>
 </head>
 <body>
 <header>
@@ -549,9 +184,10 @@ input:focus, select:focus, textarea:focus {
 
 <div class="app-container">
   <nav>
-    <button class="nav-btn active" onclick="app.switchView('persons')">Personen</button>
-    <button class="nav-btn" onclick="app.switchView('timeline')">Zeitleiste</button>
-    <button class="nav-btn" onclick="app.switchView('stats')">Statistiken</button>
+    <button class="nav-btn active" onclick="app.switchView(event,'persons')">Personen</button>
+    <button class="nav-btn" onclick="app.switchView(event,'timeline')">Zeitleiste</button>
+    <button class="nav-btn" onclick="app.switchView(event,'stats')">Statistiken</button>
+    <button class="nav-btn" onclick="app.switchView(event,'tree')">Stammbaum</button>
   </nav>
 
   <div id="personsView" class="view active">
@@ -569,6 +205,10 @@ input:focus, select:focus, textarea:focus {
   <div id="statsView" class="view">
     <div id="statsContent" class="stats-grid"></div>
   </div>
+
+  <div id="treeView" class="view">
+    <div id="treeContent" class="tree-container"></div>
+  </div>
 </div>
 
 <div id="personModal" class="modal" onclick="if(event.target===this) app.closeModal()">
@@ -578,6 +218,20 @@ input:focus, select:focus, textarea:focus {
       <button class="close-btn" onclick="app.closeModal()">×</button>
     </div>
     <div id="modalBody"></div>
+    <div style="display:flex;gap:var(--space-2);margin-top:var(--space-4);justify-content:flex-end;">
+      <button class="btn btn-danger" onclick="app.deleteCurrent()">Löschen</button>
+      <button class="btn btn-secondary" onclick="app.startEdit()">Bearbeiten</button>
+    </div>
+  </div>
+</div>
+
+<div id="editModal" class="modal" onclick="if(event.target===this) app.closeEditModal()">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 class="modal-title" id="editModalTitle">Person bearbeiten</h2>
+      <button class="close-btn" onclick="app.closeEditModal()">×</button>
+    </div>
+    <form id="editPersonForm"></form>
   </div>
 </div>
 
@@ -587,48 +241,7 @@ input:focus, select:focus, textarea:focus {
       <h2 class="modal-title">Person hinzufügen</h2>
       <button class="close-btn" onclick="app.closeAddModal()">×</button>
     </div>
-    <form id="addPersonForm">
-      <div class="form-group">
-        <label>Vorname *</label>
-        <input type="text" name="firstName" required>
-      </div>
-      <div class="form-group">
-        <label>Nachname *</label>
-        <input type="text" name="lastName" required>
-      </div>
-      <div class="form-group">
-        <label>Geschlecht *</label>
-        <select name="gender" required>
-          <option value="M">Männlich</option>
-          <option value="F">Weiblich</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Geburtsdatum</label>
-        <input type="date" name="birthDate">
-      </div>
-      <div class="form-group">
-        <label>Geburtsort</label>
-        <input type="text" name="birthPlace">
-      </div>
-      <div class="form-group">
-        <label>Todesdatum</label>
-        <input type="date" name="deathDate">
-      </div>
-      <div class="form-group">
-        <label>Todesort</label>
-        <input type="text" name="deathPlace">
-      </div>
-      <div class="form-group">
-        <label>Beruf</label>
-        <input type="text" name="occupation">
-      </div>
-      <div class="form-group">
-        <label>Notizen</label>
-        <textarea name="notes"></textarea>
-      </div>
-      <button type="submit" class="btn" style="width: 100%; margin-top: var(--space-4);">Speichern</button>
-    </form>
+    <form id="addPersonForm"></form>
   </div>
 </div>
 
@@ -636,395 +249,458 @@ input:focus, select:focus, textarea:focus {
 
 <script>
 const app = {
-  db: null,
-  persons: [],
-  currentView: 'persons',
+  db:null,
+  persons:[],
+  currentId:null,
 
-  async init() {
+  async init(){
     await this.initDB();
     await this.loadData();
+    if(this.persons.length===0){ this.loadSampleData(); }
     this.renderPersons();
     this.initTheme();
-    this.setupForms();
+    this.buildForms();
   },
 
-  async initDB() {
-    return new Promise((resolve, reject) => {
-      const request = indexedDB.open('VanDahlGenealogy', 1);
-
-      request.onerror = () => {
-        console.error('IndexedDB error:', request.error);
-        reject(request.error);
-      };
-
-      request.onsuccess = () => {
-        this.db = request.result;
-        console.log('IndexedDB initialized successfully');
-        resolve();
-      };
-
-      request.onupgradeneeded = (event) => {
-        const db = event.target.result;
-        if (!db.objectStoreNames.contains('persons')) {
-          const objectStore = db.createObjectStore('persons', { keyPath: 'id', autoIncrement: true });
-          objectStore.createIndex('lastName', 'lastName', { unique: false });
-          objectStore.createIndex('birthDate', 'birthDate', { unique: false });
-          console.log('IndexedDB object store created');
+  async initDB(){
+    return new Promise((resolve,reject)=>{
+      const req=indexedDB.open('VanDahlGenealogy',1);
+      req.onerror=()=>reject(req.error);
+      req.onupgradeneeded=e=>{
+        const db=e.target.result;
+        if(!db.objectStoreNames.contains('persons')){
+          const os=db.createObjectStore('persons',{keyPath:'id',autoIncrement:true});
+          os.createIndex('lastName','lastName',{unique:false});
         }
       };
+      req.onsuccess=()=>{ this.db=req.result; resolve(); };
     });
   },
 
-  async loadData() {
-    return new Promise((resolve, reject) => {
-      const transaction = this.db.transaction(['persons'], 'readonly');
-      const objectStore = transaction.objectStore('persons');
-      const request = objectStore.getAll();
-
-      request.onsuccess = () => {
-        this.persons = request.result;
-        console.log('Loaded persons from IndexedDB:', this.persons.length);
-        if (this.persons.length === 0) {
-          this.loadSampleData();
-        }
-        resolve();
-      };
-      request.onerror = () => reject(request.error);
+  async loadData(){
+    return new Promise((resolve,reject)=>{
+      const tx=this.db.transaction(['persons'],'readonly');
+      const os=tx.objectStore('persons');
+      const req=os.getAll();
+      req.onsuccess=()=>{ this.persons=req.result; resolve(); };
+      req.onerror=()=>reject(req.error);
     });
   },
 
-  async saveData() {
-    const transaction = this.db.transaction(['persons'], 'readwrite');
-    const objectStore = transaction.objectStore('persons');
-
-    for (const person of this.persons) {
-      if (person.id) {
-        objectStore.put(person);
-      } else {
-        const request = objectStore.add(person);
-        request.onsuccess = (e) => {
-          person.id = e.target.result;
-        };
-      }
-    }
-
-    return new Promise((resolve) => {
-      transaction.oncomplete = () => {
-        console.log('Data saved to IndexedDB');
-        this.showStorageStatus();
-        resolve();
-      };
+  async saveAll(){
+    const tx=this.db.transaction(['persons'],'readwrite');
+    const os=tx.objectStore('persons');
+    os.clear();
+    this.persons.forEach(p=>os.put(p));
+    return new Promise(res=>{
+      tx.oncomplete=()=>{ this.showStorageStatus(); res(); };
     });
   },
 
-  loadSampleData() {
-    this.persons = [
-      {
-        firstName: 'Vandalem',
-        lastName: 'van Dahl',
-        gender: 'M',
-        birthDate: '1760-01-01',
-        birthPlace: 'Flandern',
-        generation: 1,
-        notes: 'Stammvater der Familie, ca. 1760 in Flandern geboren'
-      },
-      {
-        firstName: 'Leopold',
-        lastName: 'van Dahl',
-        gender: 'M',
-        birthDate: '1788-03-15',
-        birthPlace: 'Oudenaarde, Belgien',
-        deathDate: '1852-08-20',
-        deathPlace: 'Berlin',
-        generation: 2,
-        occupation: 'Kaufmann',
-        notes: 'Wanderte nach Berlin aus, etablierte Handelsniederlassung'
-      },
-      {
-        firstName: 'Ludwig',
-        lastName: 'van Dahl',
-        gender: 'M',
-        birthDate: '1816-06-12',
-        birthPlace: 'Berlin',
-        deathDate: '1889-11-30',
-        deathPlace: 'Berlin',
-        generation: 3,
-        occupation: 'Fabrikant',
-        notes: 'Gründete Textilfabrik in Berlin'
-      }
+  loadSampleData(){
+    this.persons=[
+      {id:1,firstName:'Vandalem',lastName:'van Dahl',gender:'M',birthDate:'1760-01-01',birthPlace:'Flandern',notes:'Stammvater der Familie, ca. 1760 in Flandern geboren'},
+      {id:2,firstName:'Leopold',lastName:'van Dahl',gender:'M',birthDate:'1788-03-15',birthPlace:'Oudenaarde, Belgien',deathDate:'1852-08-20',deathPlace:'Berlin',occupation:'Kaufmann',fatherId:1},
+      {id:3,firstName:'Ludwig',lastName:'van Dahl',gender:'M',birthDate:'1816-06-12',birthPlace:'Berlin',deathDate:'1889-11-30',deathPlace:'Berlin',occupation:'Fabrikant',fatherId:2}
     ];
-    this.saveData();
+    this.saveAll();
   },
 
-  renderPersons() {
-    const grid = document.getElementById('personGrid');
-    if (this.persons.length === 0) {
-      grid.innerHTML = `
-        <div class="empty-state">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
-          </svg>
-          <p>Noch keine Personen eingetragen</p>
-        </div>
-      `;
+  personLabel(p){
+    return p ? `${p.firstName} ${p.lastName}` : '';
+  },
+
+  renderPersons(list){
+    const persons=list || this.persons;
+    const grid=document.getElementById('personGrid');
+    if(!persons.length){
+      grid.innerHTML='<div class="empty-state"><p>Noch keine Personen eingetragen</p></div>';
       return;
     }
-
-    grid.innerHTML = this.persons.map(person => {
-      const initials = (person.firstName[0] || '') + (person.lastName[0] || '');
-      const birthYear = person.birthDate ? new Date(person.birthDate).getFullYear() : '?';
-      const deathYear = person.deathDate ? new Date(person.deathDate).getFullYear() : '';
-      const years = deathYear ? `${birthYear}–${deathYear}` : `*${birthYear}`;
-
+    grid.innerHTML=persons.map(p=>{
+      const initials=(p.firstName?.[0]||'')+(p.lastName?.[0]||'');
+      const by=p.birthDate?new Date(p.birthDate).getFullYear():'?';
+      const dy=p.deathDate?new Date(p.deathDate).getFullYear():'';
+      const span=dy?`${by}–${dy}`:`*${by}`;
       return `
-        <div class="person-card" onclick="app.showPersonDetail(${person.id})">
-          <div class="person-header">
-            <div class="avatar" style="background: var(--color-primary); color: white;">${initials}</div>
-            <div style="flex: 1;">
-              <div class="person-name">${person.firstName} ${person.lastName}</div>
-              <div class="person-dates">${years}</div>
-            </div>
+      <div class="person-card" onclick="app.showPersonDetail(${p.id})">
+        <div class="person-header">
+          <div class="avatar">${initials}</div>
+          <div style="flex:1;">
+            <div class="person-name">${p.firstName} ${p.lastName}</div>
+            <div class="person-dates">${span}</div>
           </div>
-          ${person.birthPlace ? `<div class="person-meta">📍 ${person.birthPlace}</div>` : ''}
-          ${person.occupation ? `<div class="person-meta">💼 ${person.occupation}</div>` : ''}
         </div>
-      `;
+        ${p.birthPlace?`<div class="person-meta">📍 ${p.birthPlace}</div>`:''}
+        ${p.occupation?`<div class="person-meta">💼 ${p.occupation}</div>`:''}
+      </div>`;
     }).join('');
   },
 
-  showPersonDetail(id) {
-    const person = this.persons.find(p => p.id === id);
-    if (!person) return;
+  showPersonDetail(id){
+    const p=this.persons.find(x=>x.id===id);
+    if(!p) return;
+    this.currentId=id;
+    document.getElementById('modalTitle').textContent=this.personLabel(p);
+    const father=this.persons.find(x=>x.id===p.fatherId);
+    const mother=this.persons.find(x=>x.id===p.motherId);
+    const children=this.persons.filter(x=>x.fatherId===p.id || x.motherId===p.id);
+    let html='';
 
-    document.getElementById('modalTitle').textContent = `${person.firstName} ${person.lastName}`;
-    document.getElementById('modalBody').innerHTML = `
-      <div class="detail-section">
-        <div class="detail-label">Geburt</div>
-        <div class="detail-value">
-          ${person.birthDate || '–'} ${person.birthPlace ? `in ${person.birthPlace}` : ''}
+    html+=`<div class="detail-section">
+      <div class="detail-label">Geburt</div>
+      <div class="detail-value">${p.birthDate||'–'}${p.birthPlace?` in ${p.birthPlace}`:''}</div>
+    </div>`;
+    if(p.deathDate){
+      html+=`<div class="detail-section">
+        <div class="detail-label">Tod</div>
+        <div class="detail-value">${p.deathDate}${p.deathPlace?` in ${p.deathPlace}`:''}</div>
+      </div>`;
+    }
+    if(p.occupation){
+      html+=`<div class="detail-section">
+        <div class="detail-label">Beruf</div>
+        <div class="detail-value">${p.occupation}</div>
+      </div>`;
+    }
+    if(father || mother){
+      html+=`<div class="detail-section">
+        <div class="detail-label">Eltern</div>
+        <div class="detail-value">`;
+      if(father) html+=`👨 <span class="chip" onclick="app.showPersonDetail(${father.id})">${this.personLabel(father)}</span><br>`;
+      if(mother) html+=`👩 <span class="chip" onclick="app.showPersonDetail(${mother.id})">${this.personLabel(mother)}</span>`;
+      html+='</div></div>';
+    }
+    if(children.length){
+      html+=`<div class="detail-section">
+        <div class="detail-label">Kinder</div>
+        <div class="detail-value chips">
+          ${children.map(c=>`<span class="chip" onclick="app.showPersonDetail(${c.id})">${this.personLabel(c)}</span>`).join('')}
         </div>
-      </div>
-      ${person.deathDate ? `
-        <div class="detail-section">
-          <div class="detail-label">Tod</div>
-          <div class="detail-value">
-            ${person.deathDate} ${person.deathPlace ? `in ${person.deathPlace}` : ''}
-          </div>
-        </div>
-      ` : ''}
-      ${person.occupation ? `
-        <div class="detail-section">
-          <div class="detail-label">Beruf</div>
-          <div class="detail-value">${person.occupation}</div>
-        </div>
-      ` : ''}
-      ${person.notes ? `
-        <div class="detail-section">
-          <div class="detail-label">Notizen</div>
-          <div class="detail-value">${person.notes}</div>
-        </div>
-      ` : ''}
-    `;
+      </div>`;
+    }
+    if(p.notes){
+      html+=`<div class="detail-section">
+        <div class="detail-label">Notizen / Quellen</div>
+        <div class="detail-value">${p.notes.replace(/\n/g,'<br>')}</div>
+      </div>`;
+    }
+    document.getElementById('modalBody').innerHTML=html;
     document.getElementById('personModal').classList.add('active');
   },
 
-  closeModal() {
-    document.getElementById('personModal').classList.remove('active');
+  closeModal(){ document.getElementById('personModal').classList.remove('active'); },
+
+  buildForms(){
+    const baseFields = (prefix='')=>`
+      <div class="form-row">
+        <div class="form-group">
+          <label>Vorname *</label>
+          <input name="${prefix}firstName" required>
+        </div>
+        <div class="form-group">
+          <label>Nachname *</label>
+          <input name="${prefix}lastName" required>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Geschlecht *</label>
+          <select name="${prefix}gender" required>
+            <option value="M">Männlich</option>
+            <option value="F">Weiblich</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Beruf</label>
+          <input name="${prefix}occupation">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Geburtsdatum</label>
+          <input type="date" name="${prefix}birthDate">
+        </div>
+        <div class="form-group">
+          <label>Geburtsort</label>
+          <input name="${prefix}birthPlace">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Todesdatum</label>
+          <input type="date" name="${prefix}deathDate">
+        </div>
+        <div class="form-group">
+          <label>Todesort</label>
+          <input name="${prefix}deathPlace">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Vater</label>
+          <select name="${prefix}fatherId">
+            <option value="">– keiner –</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Mutter</label>
+          <select name="${prefix}motherId">
+            <option value="">– keine –</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Notizen / Quellen</label>
+        <textarea name="${prefix}notes"></textarea>
+      </div>`;
+
+    document.getElementById('addPersonForm').innerHTML=baseFields()+
+      '<button class="btn" style="width:100%;margin-top:var(--space-4);">Speichern</button>';
+    document.getElementById('editPersonForm').innerHTML=baseFields('e_')+
+      '<button class="btn" style="width:100%;margin-top:var(--space-4);">Änderungen speichern</button>';
+
+    document.getElementById('addPersonForm').onsubmit=e=>{
+      e.preventDefault();
+      const fd=new FormData(e.target);
+      const p=this.formToPerson(fd,'');
+      this.persons.push(p);
+      this.saveAll().then(()=>this.renderPersons());
+      this.closeAddModal();
+    };
+
+    document.getElementById('editPersonForm').onsubmit=e=>{
+      e.preventDefault();
+      const fd=new FormData(e.target);
+      const updated=this.formToPerson(fd,'e_');
+      const idx=this.persons.findIndex(x=>x.id===this.currentId);
+      if(idx>-1){
+        updated.id=this.currentId;
+        this.persons[idx]=updated;
+        this.saveAll().then(()=>this.renderPersons());
+      }
+      this.closeEditModal();
+      this.closeModal();
+    };
   },
 
-  showAddModal() {
+  formToPerson(fd,prefix){
+    const get=n=>fd.get(prefix+n)||'';
+    const num=n=>{const v=fd.get(prefix+n);return v?Number(v):null;};
+    const p={
+      firstName:get('firstName'),
+      lastName:get('lastName'),
+      gender:get('gender')||'U',
+      occupation:get('occupation')||null,
+      birthDate:get('birthDate')||null,
+      birthPlace:get('birthPlace')||null,
+      deathDate:get('deathDate')||null,
+      deathPlace:get('deathPlace')||null,
+      notes:get('notes')||null
+    };
+    const fid=num('fatherId'); if(fid) p.fatherId=fid;
+    const mid=num('motherId'); if(mid) p.motherId=mid;
+    return p;
+  },
+
+  populateParentSelects(prefix=''){
+    const f=document.querySelector(`select[name="${prefix}fatherId"]`);
+    const m=document.querySelector(`select[name="${prefix}motherId"]`);
+    if(!f || !m) return;
+    const opts=this.persons.map(p=>`<option value="${p.id}">${this.personLabel(p)}</option>`).join('');
+    f.innerHTML='<option value="">– keiner –</option>'+opts;
+    m.innerHTML='<option value="">– keine –</option>'+opts;
+  },
+
+  showAddModal(){
+    this.populateParentSelects('');
+    document.getElementById('addPersonForm').reset();
     document.getElementById('addModal').classList.add('active');
   },
+  closeAddModal(){ document.getElementById('addModal').classList.remove('active'); },
 
-  closeAddModal() {
-    document.getElementById('addModal').classList.remove('active');
-    document.getElementById('addPersonForm').reset();
+  startEdit(){
+    const p=this.persons.find(x=>x.id===this.currentId);
+    if(!p) return;
+    this.populateParentSelects('e_');
+    const f=document.getElementById('editPersonForm');
+    f.elements['e_firstName'].value=p.firstName||'';
+    f.elements['e_lastName'].value=p.lastName||'';
+    f.elements['e_gender'].value=p.gender||'U';
+    f.elements['e_occupation'].value=p.occupation||'';
+    f.elements['e_birthDate'].value=p.birthDate||'';
+    f.elements['e_birthPlace'].value=p.birthPlace||'';
+    f.elements['e_deathDate'].value=p.deathDate||'';
+    f.elements['e_deathPlace'].value=p.deathPlace||'';
+    f.elements['e_notes'].value=p.notes||'';
+    f.elements['e_fatherId'].value=p.fatherId||'';
+    f.elements['e_motherId'].value=p.motherId||'';
+    document.getElementById('editModal').classList.add('active');
+  },
+  closeEditModal(){ document.getElementById('editModal').classList.remove('active'); },
+
+  deleteCurrent(){
+    if(!this.currentId) return;
+    if(!confirm('Diese Person wirklich löschen?')) return;
+    this.persons=this.persons.filter(p=>p.id!==this.currentId);
+    this.persons.forEach(p=>{
+      if(p.fatherId===this.currentId) delete p.fatherId;
+      if(p.motherId===this.currentId) delete p.motherId;
+    });
+    this.saveAll().then(()=>this.renderPersons());
+    this.closeModal();
   },
 
-  setupForms() {
-    document.getElementById('addPersonForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const formData = new FormData(e.target);
-      const person = {
-        firstName: formData.get('firstName'),
-        lastName: formData.get('lastName'),
-        gender: formData.get('gender'),
-        birthDate: formData.get('birthDate') || null,
-        birthPlace: formData.get('birthPlace') || null,
-        deathDate: formData.get('deathDate') || null,
-        deathPlace: formData.get('deathPlace') || null,
-        occupation: formData.get('occupation') || null,
-        notes: formData.get('notes') || null
-      };
-
-      this.persons.push(person);
-      await this.saveData();
-      await this.loadData();
-      this.renderPersons();
-      this.closeAddModal();
+  searchPersons(q){
+    if(!q){ this.renderPersons(); return; }
+    const needle=q.toLowerCase();
+    const res=this.persons.filter(p=>{
+      const s=`${p.firstName} ${p.lastName} ${p.birthPlace||''} ${p.occupation||''} ${(p.notes||'')}`.toLowerCase();
+      return s.includes(needle);
     });
+    this.renderPersons(res);
   },
 
-  searchPersons(query) {
-    if (!query) {
-      this.renderPersons();
-      return;
-    }
-
-    const filtered = this.persons.filter(p => {
-      const searchText = `${p.firstName} ${p.lastName} ${p.birthPlace || ''} ${p.occupation || ''}`.toLowerCase();
-      return searchText.includes(query.toLowerCase());
-    });
-
-    const grid = document.getElementById('personGrid');
-    if (filtered.length === 0) {
-      grid.innerHTML = '<div class="empty-state"><p>Keine Ergebnisse gefunden</p></div>';
-      return;
-    }
-
-    const tempPersons = this.persons;
-    this.persons = filtered;
-    this.renderPersons();
-    this.persons = tempPersons;
+  switchView(ev,view){
+    document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+    ev.target.classList.add('active');
+    document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+    document.getElementById(view+'View').classList.add('active');
+    if(view==='timeline') this.renderTimeline();
+    if(view==='stats') this.renderStats();
+    if(view==='tree') this.renderTree();
   },
 
-  switchView(view) {
-    document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-
-    event.target.classList.add('active');
-    document.getElementById(view + 'View').classList.add('active');
-
-    if (view === 'timeline') this.renderTimeline();
-    if (view === 'stats') this.renderStats();
-  },
-
-  renderTimeline() {
-    const events = [];
-    this.persons.forEach(p => {
-      if (p.birthDate) events.push({ type: 'birth', date: p.birthDate, person: p });
-      if (p.deathDate) events.push({ type: 'death', date: p.deathDate, person: p });
+  renderTimeline(){
+    const events=[];
+    this.persons.forEach(p=>{
+      if(p.birthDate) events.push({t:'birth',date:p.birthDate,p});
+      if(p.deathDate) events.push({t:'death',date:p.deathDate,p});
     });
-
-    events.sort((a, b) => new Date(a.date) - new Date(b.date));
-
-    const decades = {};
-    events.forEach(e => {
-      const year = new Date(e.date).getFullYear();
-      const decade = Math.floor(year / 10) * 10;
-      if (!decades[decade]) decades[decade] = [];
-      decades[decade].push(e);
+    events.sort((a,b)=>new Date(a.date)-new Date(b.date));
+    const decades={};
+    events.forEach(e=>{
+      const y=new Date(e.date).getFullYear();
+      const d=Math.floor(y/10)*10;
+      (decades[d]||(decades[d]=[])).push(e);
     });
-
-    const content = Object.keys(decades).sort().map(decade => `
+    const html=Object.keys(decades).sort().map(d=>`
       <div class="timeline-group">
-        <div class="timeline-decade">${decade}er Jahre</div>
-        ${decades[decade].map(e => `
-          <div class="timeline-event" onclick="app.showPersonDetail(${e.person.id})">
-            <strong>${new Date(e.date).getFullYear()}</strong> – 
-            ${e.type === 'birth' ? '👶 Geboren' : '✝️ Gestorben'}: 
-            ${e.person.firstName} ${e.person.lastName}
-            ${e.type === 'birth' && e.person.birthPlace ? ` in ${e.person.birthPlace}` : ''}
-          </div>
-        `).join('')}
-      </div>
-    `).join('');
-
-    document.getElementById('timelineContent').innerHTML = content || '<div class="empty-state"><p>Keine Ereignisse vorhanden</p></div>';
+        <div class="timeline-decade">${d}er Jahre</div>
+        ${decades[d].map(e=>`
+          <div class="timeline-event" onclick="app.showPersonDetail(${e.p.id})">
+            <strong>${new Date(e.date).getFullYear()}</strong> – ${e.t==='birth'?'👶 Geboren':'✝️ Gestorben'}: ${this.personLabel(e.p)}${e.t==='birth' && e.p.birthPlace?` in ${e.p.birthPlace}`:''}
+          </div>`).join('')}
+      </div>`).join('');
+    document.getElementById('timelineContent').innerHTML=html || '<div class="empty-state"><p>Keine Ereignisse vorhanden</p></div>';
   },
 
-  renderStats() {
-    const stats = [
-      { label: 'Personen gesamt', value: this.persons.length },
-      { label: 'Männer', value: this.persons.filter(p => p.gender === 'M').length },
-      { label: 'Frauen', value: this.persons.filter(p => p.gender === 'F').length },
-      { label: 'Mit Geburtsdatum', value: this.persons.filter(p => p.birthDate).length }
+  renderStats(){
+    const stats=[
+      {label:'Personen gesamt',value:this.persons.length},
+      {label:'Männer',value:this.persons.filter(p=>p.gender==='M').length},
+      {label:'Frauen',value:this.persons.filter(p=>p.gender==='F').length},
+      {label:'Mit Geburtsdatum',value:this.persons.filter(p=>p.birthDate).length}
     ];
-
-    const places = {};
-    this.persons.forEach(p => {
-      if (p.birthPlace) places[p.birthPlace] = (places[p.birthPlace] || 0) + 1;
-    });
-
-    const topPlaces = Object.entries(places)
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, 3)
-      .map(([place, count]) => ({ label: place, value: count }));
-
-    const html = stats.concat(topPlaces).map(s => `
-      <div class="stat-card">
-        <div class="stat-value">${s.value}</div>
-        <div class="stat-label">${s.label}</div>
-      </div>
-    `).join('');
-
-    document.getElementById('statsContent').innerHTML = html;
+    const places={};
+    this.persons.forEach(p=>{ if(p.birthPlace) places[p.birthPlace]=(places[p.birthPlace]||0)+1; });
+    const topPlaces=Object.entries(places).sort((a,b)=>b[1]-a[1]).slice(0,3).map(([place,count])=>({label:place,value:count}));
+    document.getElementById('statsContent').innerHTML=
+      stats.concat(topPlaces).map(s=>`
+        <div class="stat-card">
+          <div class="stat-value">${s.value}</div>
+          <div class="stat-label">${s.label}</div>
+        </div>`).join('');
   },
 
-  exportJSON() {
-    const data = JSON.stringify(this.persons, null, 2);
-    const blob = new Blob([data], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'familie-van-dahl-' + new Date().toISOString().slice(0, 10) + '.json';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+  renderTree(){
+    if(!this.persons.length){
+      document.getElementById('treeContent').innerHTML='<div class="empty-state"><p>Keine Personen für den Stammbaum</p></div>';
+      return;
+    }
+    // Wurzel = Person ohne Vater/Mutter, älteste Generation
+    const roots=this.persons.filter(p=>!p.fatherId && !p.motherId)
+      .sort((a,b)=>new Date(a.birthDate||'2100-01-01')-new Date(b.birthDate||'2100-01-01'));
+    const root=roots[0] || this.persons[0];
+
+    const levels=[];
+    function addLevel(persons,level){
+      if(!persons.length) return;
+      levels[level]=persons;
+      const children=[];
+      persons.forEach(p=>{
+        app.persons.forEach(c=>{
+          if(c.fatherId===p.id || c.motherId===p.id) children.push(c);
+        });
+      });
+      const uniq=[...new Map(children.map(c=>[c.id,c])).values()];
+      if(uniq.length) addLevel(uniq,level+1);
+    }
+    addLevel([root],0);
+
+    const html=levels.map((persons,idx)=>`
+      <div class="tree-links">${idx===0?'Stammvater':'↓ Kinder-Generation ' + (idx+1)}</div>
+      <div class="tree-level">
+        ${persons.map(p=>{
+          const by=p.birthDate?new Date(p.birthDate).getFullYear():'?';
+          const dy=p.deathDate?new Date(p.deathDate).getFullYear():'';
+          const span=dy?`${by}–${dy}`:`*${by}`;
+          return `
+            <div class="tree-node" onclick="app.showPersonDetail(${p.id})">
+              <div class="tree-name">${this.personLabel(p)}</div>
+              <div class="tree-years">${span}</div>
+              ${p.birthPlace?`<div class="person-meta">📍 ${p.birthPlace}</div>`:''}
+            </div>`;
+        }).join('')}
+      </div>`).join('');
+    document.getElementById('treeContent').innerHTML=html;
+  },
+
+  exportJSON(){
+    const data=JSON.stringify(this.persons,null,2);
+    const blob=new Blob([data],{type:'application/json'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=url;
+    a.download='familie-van-dahl-' + new Date().toISOString().slice(0,10) + '.json';
+    document.body.appendChild(a);a.click();document.body.removeChild(a);
     URL.revokeObjectURL(url);
   },
 
-  async importJSON(event) {
-    const file = event.target.files[0];
-    if (!file) return;
-
-    try {
-      const text = await file.text();
-      const imported = JSON.parse(text);
-
-      if (confirm(`${imported.length} Personen importieren? Vorhandene Daten werden überschrieben.`)) {
-        // Clear existing data
-        const transaction = this.db.transaction(['persons'], 'readwrite');
-        const objectStore = transaction.objectStore('persons');
-        objectStore.clear();
-
-        transaction.oncomplete = async () => {
-          this.persons = imported;
-          await this.saveData();
-          await this.loadData();
-          this.renderPersons();
-        };
+  async importJSON(ev){
+    const file=ev.target.files[0]; if(!file) return;
+    try{
+      const text=await file.text();
+      const imported=JSON.parse(text);
+      if(confirm(`${imported.length} Personen importieren? Vorhandene Daten werden überschrieben.`)){
+        this.persons=imported;
+        await this.saveAll();
+        await this.loadData();
+        this.renderPersons();
       }
-    } catch (error) {
-      alert('Fehler beim Importieren: ' + error.message);
-    }
-
-    event.target.value = '';
+    }catch(err){ alert('Fehler beim Importieren: '+err.message); }
+    ev.target.value='';
   },
 
-  showStorageStatus() {
-    const status = document.getElementById('storageStatus');
-    status.classList.add('show');
-    setTimeout(() => status.classList.remove('show'), 2000);
+  showStorageStatus(){
+    const s=document.getElementById('storageStatus');
+    s.classList.add('show');
+    setTimeout(()=>s.classList.remove('show'),2000);
   },
 
-  initTheme() {
-    const toggle = document.querySelector('[data-theme-toggle]');
-    const root = document.documentElement;
-    let theme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    root.setAttribute('data-theme', theme);
-
-    toggle.addEventListener('click', () => {
-      theme = theme === 'dark' ? 'light' : 'dark';
-      root.setAttribute('data-theme', theme);
-      toggle.innerHTML = theme === 'dark' 
-        ? '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>'
-        : '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+  initTheme(){
+    const t=document.querySelector('[data-theme-toggle]');
+    const root=document.documentElement;
+    let theme=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+    root.setAttribute('data-theme',theme);
+    t.addEventListener('click',()=>{
+      theme=theme==='dark'?'light':'dark';
+      root.setAttribute('data-theme',theme);
     });
   }
 };
 
-document.addEventListener('DOMContentLoaded', () => app.init());
+document.addEventListener('DOMContentLoaded',()=>app.init());
 </script>
 </body>
 </html>
