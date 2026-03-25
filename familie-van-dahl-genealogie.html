@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Familie van Dahl Genealogie</title>
+<link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap" rel="stylesheet">
+<style>
+:root, [data-theme="light"] {
+  --color-bg: #f7f6f2;
+  --color-surface: #faf9f6;
+  --color-surface-2: #fcfbf9;
+  --color-surface-offset: #f3f0ec;
+  --color-divider: #e0ded9;
+  --color-border: #d4d1ca;
+  --color-text: #28251d;
+  --color-text-muted: #7a7974;
+  --color-text-faint: #bab9b4;
+  --color-primary: #964219;
+  --color-primary-hover: #713417;
+  --color-primary-active: #4b2614;
+  --color-success: #437a22;
+  --color-error: #a12c7b;
+  --text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+  --text-sm: clamp(0.875rem, 0.8rem + 0.35vw, 1rem);
+  --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  --text-lg: clamp(1.125rem, 1rem + 0.75vw, 1.5rem);
+  --text-xl: clamp(1.5rem, 1.2rem + 1.25vw, 2.25rem);
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-full: 9999px;
+  --shadow-sm: 0 1px 2px oklch(0.2 0.01 80 / 0.06);
+  --shadow-md: 0 4px 12px oklch(0.2 0.01 80 / 0.08);
+  --shadow-lg: 0 12px 32px oklch(0.2 0.01 80 / 0.12);
+  --font-body: 'General Sans', -apple-system, sans-serif;
+}
+
+[data-theme="dark"] {
+  --color-bg: #171614;
+  --color-surface: #1c1b19;
+  --color-surface-2: #201f1d;
+  --color-surface-offset: #1d1c1a;
+  --color-divider: #262523;
+  --color-border: #393836;
+  --color-text: #cdccca;
+  --color-text-muted: #797876;
+  --color-text-faint: #5a5957;
+  --color-primary: #bb653b;
+  --color-primary-hover: #b95525;
+  --color-primary-active: #993d10;
+  --color-success: #6daa45;
+  --color-error: #d163a7;
+  --shadow-sm: 0 1px 2px oklch(0 0 0 / 0.2);
+  --shadow-md: 0 4px 12px oklch(0 0 0 / 0.3);
+  --shadow-lg: 0 12px 32px oklch(0 0 0 / 0.4);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --color-bg: #171614;
+    --color-surface: #1c1b19;
+    --color-surface-2: #201f1d;
+    --color-surface-offset: #1d1c1a;
+    --color-divider: #262523;
+    --color-border: #393836;
+    --color-text: #cdccca;
+    --color-text-muted: #797876;
+    --color-text-faint: #5a5957;
+    --color-primary: #bb653b;
+    --color-primary-hover: #b95525;
+    --color-primary-active: #993d10;
+    --color-success: #6daa45;
+    --color-error: #d163a7;
+    --shadow-sm: 0 1px 2px oklch(0 0 0 / 0.2);
+    --shadow-md: 0 4px 12px oklch(0 0 0 / 0.3);
+    --shadow-lg: 0 12px 32px oklch(0 0 0 / 0.4);
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-text-size-adjust: none;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.app-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--space-4);
+}
+
+header {
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  padding: var(--space-4);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: var(--shadow-sm);
+}
+
+.header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+h1 {
+  font-size: var(--text-xl);
+  font-weight: 700;
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.header-actions {
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-primary);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 180ms cubic-bezier(0.16, 1, 0.3, 1);
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  white-space: nowrap;
+}
+
+.btn:active {
+  transform: scale(0.96);
+  background: var(--color-primary-active);
+}
+
+.btn-secondary {
+  background: var(--color-surface-offset);
+  color: var(--color-text);
+}
+
+.btn-secondary:active {
+  background: var(--color-divider);
+}
+
+.theme-toggle {
+  background: var(--color-surface-offset);
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text);
+}
+
+nav {
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  padding: var(--space-2);
+  margin: var(--space-6) 0;
+  display: flex;
+  gap: var(--space-2);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.nav-btn {
+  padding: var(--space-3) var(--space-4);
+  background: transparent;
+  color: var(--color-text-muted);
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  min-height: 44px;
+  transition: all 180ms;
+}
+
+.nav-btn.active {
+  background: var(--color-primary);
+  color: white;
+}
+
+.view {
+  display: none;
+}
+
+.view.active {
+  display: block;
+}
+
+.person-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
+  gap: var(--space-4);
+  margin-top: var(--space-6);
+}
+
+.person-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  cursor: pointer;
+  transition: all 180ms;
+}
+
+.person-card:active {
+  transform: scale(0.98);
+  box-shadow: var(--shadow-md);
+}
+
+.person-header {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+  margin-bottom: var(--space-3);
+}
+
+.avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-full);
+  background: var(--color-surface-offset);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: var(--text-lg);
+  flex-shrink: 0;
+}
+
+.person-name {
+  font-size: var(--text-lg);
+  font-weight: 600;
+  margin-bottom: var(--space-1);
+}
+
+.person-dates {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.person-meta {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  margin-top: var(--space-2);
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: oklch(0 0 0 / 0.5);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: var(--space-4);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.modal.active {
+  display: flex;
+}
+
+.modal-content {
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  max-width: 600px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  box-shadow: var(--shadow-lg);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--space-6);
+}
+
+.modal-title {
+  font-size: var(--text-xl);
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.close-btn {
+  background: var(--color-surface-offset);
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  font-size: 20px;
+  color: var(--color-text-muted);
+}
+
+.detail-section {
+  margin-bottom: var(--space-6);
+}
+
+.detail-label {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-2);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.detail-value {
+  font-size: var(--text-base);
+  color: var(--color-text);
+  margin-bottom: var(--space-4);
+}
+
+.form-group {
+  margin-bottom: var(--space-4);
+}
+
+label {
+  display: block;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: var(--space-2);
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: var(--space-3);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: var(--text-base);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  min-height: 44px;
+}
+
+textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.search-box {
+  position: relative;
+  margin-bottom: var(--space-4);
+}
+
+.search-box input {
+  padding-left: var(--space-12);
+}
+
+.search-icon {
+  position: absolute;
+  left: var(--space-3);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text-muted);
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
+  gap: var(--space-4);
+  margin-top: var(--space-6);
+}
+
+.stat-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  text-align: center;
+}
+
+.stat-value {
+  font-size: var(--text-xl);
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: var(--space-2);
+}
+
+.stat-label {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.timeline {
+  margin-top: var(--space-6);
+}
+
+.timeline-group {
+  margin-bottom: var(--space-8);
+}
+
+.timeline-decade {
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: var(--space-4);
+  padding-bottom: var(--space-2);
+  border-bottom: 2px solid var(--color-border);
+}
+
+.timeline-event {
+  padding: var(--space-3);
+  background: var(--color-surface);
+  border-left: 3px solid var(--color-primary);
+  margin-bottom: var(--space-3);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 180ms;
+}
+
+.timeline-event:active {
+  transform: translateX(4px);
+}
+
+.empty-state {
+  text-align: center;
+  padding: var(--space-16) var(--space-4);
+  color: var(--color-text-muted);
+}
+
+.empty-state svg {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto var(--space-4);
+  opacity: 0.5;
+}
+
+.storage-status {
+  position: fixed;
+  bottom: var(--space-4);
+  right: var(--space-4);
+  background: var(--color-success);
+  color: white;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-full);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  box-shadow: var(--shadow-lg);
+  opacity: 0;
+  transition: opacity 300ms;
+  pointer-events: none;
+  z-index: 2000;
+}
+
+.storage-status.show {
+  opacity: 1;
+}
+
+@media (max-width: 768px) {
+  .header-content {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .header-actions {
+    justify-content: center;
+  }
+
+  nav {
+    justify-content: flex-start;
+  }
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="header-content">
+    <h1>
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+      </svg>
+      Familie van Dahl
+    </h1>
+    <div class="header-actions">
+      <button class="btn" onclick="app.showAddModal()">+ Person</button>
+      <button class="btn btn-secondary" onclick="app.exportJSON()">📥 Export</button>
+      <button class="btn btn-secondary" onclick="document.getElementById('importFile').click()">📤 Import</button>
+      <button class="theme-toggle" data-theme-toggle aria-label="Theme umschalten">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<input type="file" id="importFile" accept=".json" style="display:none" onchange="app.importJSON(event)">
+
+<div class="app-container">
+  <nav>
+    <button class="nav-btn active" onclick="app.switchView('persons')">Personen</button>
+    <button class="nav-btn" onclick="app.switchView('timeline')">Zeitleiste</button>
+    <button class="nav-btn" onclick="app.switchView('stats')">Statistiken</button>
+  </nav>
+
+  <div id="personsView" class="view active">
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input type="text" placeholder="Nach Name, Ort oder Beruf suchen..." oninput="app.searchPersons(this.value)">
+    </div>
+    <div id="personGrid" class="person-grid"></div>
+  </div>
+
+  <div id="timelineView" class="view">
+    <div id="timelineContent" class="timeline"></div>
+  </div>
+
+  <div id="statsView" class="view">
+    <div id="statsContent" class="stats-grid"></div>
+  </div>
+</div>
+
+<div id="personModal" class="modal" onclick="if(event.target===this) app.closeModal()">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 class="modal-title" id="modalTitle"></h2>
+      <button class="close-btn" onclick="app.closeModal()">×</button>
+    </div>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<div id="addModal" class="modal" onclick="if(event.target===this) app.closeAddModal()">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 class="modal-title">Person hinzufügen</h2>
+      <button class="close-btn" onclick="app.closeAddModal()">×</button>
+    </div>
+    <form id="addPersonForm">
+      <div class="form-group">
+        <label>Vorname *</label>
+        <input type="text" name="firstName" required>
+      </div>
+      <div class="form-group">
+        <label>Nachname *</label>
+        <input type="text" name="lastName" required>
+      </div>
+      <div class="form-group">
+        <label>Geschlecht *</label>
+        <select name="gender" required>
+          <option value="M">Männlich</option>
+          <option value="F">Weiblich</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Geburtsdatum</label>
+        <input type="date" name="birthDate">
+      </div>
+      <div class="form-group">
+        <label>Geburtsort</label>
+        <input type="text" name="birthPlace">
+      </div>
+      <div class="form-group">
+        <label>Todesdatum</label>
+        <input type="date" name="deathDate">
+      </div>
+      <div class="form-group">
+        <label>Todesort</label>
+        <input type="text" name="deathPlace">
+      </div>
+      <div class="form-group">
+        <label>Beruf</label>
+        <input type="text" name="occupation">
+      </div>
+      <div class="form-group">
+        <label>Notizen</label>
+        <textarea name="notes"></textarea>
+      </div>
+      <button type="submit" class="btn" style="width: 100%; margin-top: var(--space-4);">Speichern</button>
+    </form>
+  </div>
+</div>
+
+<div class="storage-status" id="storageStatus">Daten gespeichert ✓</div>
+
+<script>
+const app = {
+  db: null,
+  persons: [],
+  currentView: 'persons',
+
+  async init() {
+    await this.initDB();
+    await this.loadData();
+    this.renderPersons();
+    this.initTheme();
+    this.setupForms();
+  },
+
+  async initDB() {
+    return new Promise((resolve, reject) => {
+      const request = indexedDB.open('VanDahlGenealogy', 1);
+
+      request.onerror = () => {
+        console.error('IndexedDB error:', request.error);
+        reject(request.error);
+      };
+
+      request.onsuccess = () => {
+        this.db = request.result;
+        console.log('IndexedDB initialized successfully');
+        resolve();
+      };
+
+      request.onupgradeneeded = (event) => {
+        const db = event.target.result;
+        if (!db.objectStoreNames.contains('persons')) {
+          const objectStore = db.createObjectStore('persons', { keyPath: 'id', autoIncrement: true });
+          objectStore.createIndex('lastName', 'lastName', { unique: false });
+          objectStore.createIndex('birthDate', 'birthDate', { unique: false });
+          console.log('IndexedDB object store created');
+        }
+      };
+    });
+  },
+
+  async loadData() {
+    return new Promise((resolve, reject) => {
+      const transaction = this.db.transaction(['persons'], 'readonly');
+      const objectStore = transaction.objectStore('persons');
+      const request = objectStore.getAll();
+
+      request.onsuccess = () => {
+        this.persons = request.result;
+        console.log('Loaded persons from IndexedDB:', this.persons.length);
+        if (this.persons.length === 0) {
+          this.loadSampleData();
+        }
+        resolve();
+      };
+      request.onerror = () => reject(request.error);
+    });
+  },
+
+  async saveData() {
+    const transaction = this.db.transaction(['persons'], 'readwrite');
+    const objectStore = transaction.objectStore('persons');
+
+    for (const person of this.persons) {
+      if (person.id) {
+        objectStore.put(person);
+      } else {
+        const request = objectStore.add(person);
+        request.onsuccess = (e) => {
+          person.id = e.target.result;
+        };
+      }
+    }
+
+    return new Promise((resolve) => {
+      transaction.oncomplete = () => {
+        console.log('Data saved to IndexedDB');
+        this.showStorageStatus();
+        resolve();
+      };
+    });
+  },
+
+  loadSampleData() {
+    this.persons = [
+      {
+        firstName: 'Vandalem',
+        lastName: 'van Dahl',
+        gender: 'M',
+        birthDate: '1760-01-01',
+        birthPlace: 'Flandern',
+        generation: 1,
+        notes: 'Stammvater der Familie, ca. 1760 in Flandern geboren'
+      },
+      {
+        firstName: 'Leopold',
+        lastName: 'van Dahl',
+        gender: 'M',
+        birthDate: '1788-03-15',
+        birthPlace: 'Oudenaarde, Belgien',
+        deathDate: '1852-08-20',
+        deathPlace: 'Berlin',
+        generation: 2,
+        occupation: 'Kaufmann',
+        notes: 'Wanderte nach Berlin aus, etablierte Handelsniederlassung'
+      },
+      {
+        firstName: 'Ludwig',
+        lastName: 'van Dahl',
+        gender: 'M',
+        birthDate: '1816-06-12',
+        birthPlace: 'Berlin',
+        deathDate: '1889-11-30',
+        deathPlace: 'Berlin',
+        generation: 3,
+        occupation: 'Fabrikant',
+        notes: 'Gründete Textilfabrik in Berlin'
+      }
+    ];
+    this.saveData();
+  },
+
+  renderPersons() {
+    const grid = document.getElementById('personGrid');
+    if (this.persons.length === 0) {
+      grid.innerHTML = `
+        <div class="empty-state">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+          </svg>
+          <p>Noch keine Personen eingetragen</p>
+        </div>
+      `;
+      return;
+    }
+
+    grid.innerHTML = this.persons.map(person => {
+      const initials = (person.firstName[0] || '') + (person.lastName[0] || '');
+      const birthYear = person.birthDate ? new Date(person.birthDate).getFullYear() : '?';
+      const deathYear = person.deathDate ? new Date(person.deathDate).getFullYear() : '';
+      const years = deathYear ? `${birthYear}–${deathYear}` : `*${birthYear}`;
+
+      return `
+        <div class="person-card" onclick="app.showPersonDetail(${person.id})">
+          <div class="person-header">
+            <div class="avatar" style="background: var(--color-primary); color: white;">${initials}</div>
+            <div style="flex: 1;">
+              <div class="person-name">${person.firstName} ${person.lastName}</div>
+              <div class="person-dates">${years}</div>
+            </div>
+          </div>
+          ${person.birthPlace ? `<div class="person-meta">📍 ${person.birthPlace}</div>` : ''}
+          ${person.occupation ? `<div class="person-meta">💼 ${person.occupation}</div>` : ''}
+        </div>
+      `;
+    }).join('');
+  },
+
+  showPersonDetail(id) {
+    const person = this.persons.find(p => p.id === id);
+    if (!person) return;
+
+    document.getElementById('modalTitle').textContent = `${person.firstName} ${person.lastName}`;
+    document.getElementById('modalBody').innerHTML = `
+      <div class="detail-section">
+        <div class="detail-label">Geburt</div>
+        <div class="detail-value">
+          ${person.birthDate || '–'} ${person.birthPlace ? `in ${person.birthPlace}` : ''}
+        </div>
+      </div>
+      ${person.deathDate ? `
+        <div class="detail-section">
+          <div class="detail-label">Tod</div>
+          <div class="detail-value">
+            ${person.deathDate} ${person.deathPlace ? `in ${person.deathPlace}` : ''}
+          </div>
+        </div>
+      ` : ''}
+      ${person.occupation ? `
+        <div class="detail-section">
+          <div class="detail-label">Beruf</div>
+          <div class="detail-value">${person.occupation}</div>
+        </div>
+      ` : ''}
+      ${person.notes ? `
+        <div class="detail-section">
+          <div class="detail-label">Notizen</div>
+          <div class="detail-value">${person.notes}</div>
+        </div>
+      ` : ''}
+    `;
+    document.getElementById('personModal').classList.add('active');
+  },
+
+  closeModal() {
+    document.getElementById('personModal').classList.remove('active');
+  },
+
+  showAddModal() {
+    document.getElementById('addModal').classList.add('active');
+  },
+
+  closeAddModal() {
+    document.getElementById('addModal').classList.remove('active');
+    document.getElementById('addPersonForm').reset();
+  },
+
+  setupForms() {
+    document.getElementById('addPersonForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const person = {
+        firstName: formData.get('firstName'),
+        lastName: formData.get('lastName'),
+        gender: formData.get('gender'),
+        birthDate: formData.get('birthDate') || null,
+        birthPlace: formData.get('birthPlace') || null,
+        deathDate: formData.get('deathDate') || null,
+        deathPlace: formData.get('deathPlace') || null,
+        occupation: formData.get('occupation') || null,
+        notes: formData.get('notes') || null
+      };
+
+      this.persons.push(person);
+      await this.saveData();
+      await this.loadData();
+      this.renderPersons();
+      this.closeAddModal();
+    });
+  },
+
+  searchPersons(query) {
+    if (!query) {
+      this.renderPersons();
+      return;
+    }
+
+    const filtered = this.persons.filter(p => {
+      const searchText = `${p.firstName} ${p.lastName} ${p.birthPlace || ''} ${p.occupation || ''}`.toLowerCase();
+      return searchText.includes(query.toLowerCase());
+    });
+
+    const grid = document.getElementById('personGrid');
+    if (filtered.length === 0) {
+      grid.innerHTML = '<div class="empty-state"><p>Keine Ergebnisse gefunden</p></div>';
+      return;
+    }
+
+    const tempPersons = this.persons;
+    this.persons = filtered;
+    this.renderPersons();
+    this.persons = tempPersons;
+  },
+
+  switchView(view) {
+    document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+
+    event.target.classList.add('active');
+    document.getElementById(view + 'View').classList.add('active');
+
+    if (view === 'timeline') this.renderTimeline();
+    if (view === 'stats') this.renderStats();
+  },
+
+  renderTimeline() {
+    const events = [];
+    this.persons.forEach(p => {
+      if (p.birthDate) events.push({ type: 'birth', date: p.birthDate, person: p });
+      if (p.deathDate) events.push({ type: 'death', date: p.deathDate, person: p });
+    });
+
+    events.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+    const decades = {};
+    events.forEach(e => {
+      const year = new Date(e.date).getFullYear();
+      const decade = Math.floor(year / 10) * 10;
+      if (!decades[decade]) decades[decade] = [];
+      decades[decade].push(e);
+    });
+
+    const content = Object.keys(decades).sort().map(decade => `
+      <div class="timeline-group">
+        <div class="timeline-decade">${decade}er Jahre</div>
+        ${decades[decade].map(e => `
+          <div class="timeline-event" onclick="app.showPersonDetail(${e.person.id})">
+            <strong>${new Date(e.date).getFullYear()}</strong> – 
+            ${e.type === 'birth' ? '👶 Geboren' : '✝️ Gestorben'}: 
+            ${e.person.firstName} ${e.person.lastName}
+            ${e.type === 'birth' && e.person.birthPlace ? ` in ${e.person.birthPlace}` : ''}
+          </div>
+        `).join('')}
+      </div>
+    `).join('');
+
+    document.getElementById('timelineContent').innerHTML = content || '<div class="empty-state"><p>Keine Ereignisse vorhanden</p></div>';
+  },
+
+  renderStats() {
+    const stats = [
+      { label: 'Personen gesamt', value: this.persons.length },
+      { label: 'Männer', value: this.persons.filter(p => p.gender === 'M').length },
+      { label: 'Frauen', value: this.persons.filter(p => p.gender === 'F').length },
+      { label: 'Mit Geburtsdatum', value: this.persons.filter(p => p.birthDate).length }
+    ];
+
+    const places = {};
+    this.persons.forEach(p => {
+      if (p.birthPlace) places[p.birthPlace] = (places[p.birthPlace] || 0) + 1;
+    });
+
+    const topPlaces = Object.entries(places)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 3)
+      .map(([place, count]) => ({ label: place, value: count }));
+
+    const html = stats.concat(topPlaces).map(s => `
+      <div class="stat-card">
+        <div class="stat-value">${s.value}</div>
+        <div class="stat-label">${s.label}</div>
+      </div>
+    `).join('');
+
+    document.getElementById('statsContent').innerHTML = html;
+  },
+
+  exportJSON() {
+    const data = JSON.stringify(this.persons, null, 2);
+    const blob = new Blob([data], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'familie-van-dahl-' + new Date().toISOString().slice(0, 10) + '.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  },
+
+  async importJSON(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    try {
+      const text = await file.text();
+      const imported = JSON.parse(text);
+
+      if (confirm(`${imported.length} Personen importieren? Vorhandene Daten werden überschrieben.`)) {
+        // Clear existing data
+        const transaction = this.db.transaction(['persons'], 'readwrite');
+        const objectStore = transaction.objectStore('persons');
+        objectStore.clear();
+
+        transaction.oncomplete = async () => {
+          this.persons = imported;
+          await this.saveData();
+          await this.loadData();
+          this.renderPersons();
+        };
+      }
+    } catch (error) {
+      alert('Fehler beim Importieren: ' + error.message);
+    }
+
+    event.target.value = '';
+  },
+
+  showStorageStatus() {
+    const status = document.getElementById('storageStatus');
+    status.classList.add('show');
+    setTimeout(() => status.classList.remove('show'), 2000);
+  },
+
+  initTheme() {
+    const toggle = document.querySelector('[data-theme-toggle]');
+    const root = document.documentElement;
+    let theme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    root.setAttribute('data-theme', theme);
+
+    toggle.addEventListener('click', () => {
+      theme = theme === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', theme);
+      toggle.innerHTML = theme === 'dark' 
+        ? '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>'
+        : '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+    });
+  }
+};
+
+document.addEventListener('DOMContentLoaded', () => app.init());
+</script>
+</body>
+</html>
