@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <title>Familie van Dahl – Genealogie (Vollversion)</title>
+  <title>Familie van Dahl – Genealogie (Erweiterte Version)</title>
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap" rel="stylesheet">
   <style>
@@ -299,7 +299,7 @@ const app = {
 
   loadSampleData(){
     this.persons=[
-      {id:1,firstName:'Vandalem',lastName:'van Dahl',gender:'M',birthDate:'1760-01-01',birthPlace:'Flandern',notes:'Stammvater der Familie, ca. 1760 in Flandern geboren'},
+      {id:1,firstName:'Vandalem',lastName:'van Dahl',gender:'M',birthDate:'1760',birthPlace:'Flandern',notes:'Stammvater der Familie, ca. 1760 in Flandern geboren'},
       {id:2,firstName:'Leopold',lastName:'van Dahl',gender:'M',birthDate:'1788-03-15',birthPlace:'Oudenaarde, Belgien',deathDate:'1852-08-20',deathPlace:'Berlin',occupation:'Kaufmann',fatherId:1},
       {id:3,firstName:'Ludwig',lastName:'van Dahl',gender:'M',birthDate:'1816-06-12',birthPlace:'Berlin',deathDate:'1889-11-30',deathPlace:'Berlin',occupation:'Fabrikant',fatherId:2}
     ];
@@ -319,8 +319,8 @@ const app = {
     }
     grid.innerHTML=persons.map(p=>{
       const initials=(p.firstName?.[0]||'')+(p.lastName?.[0]||'');
-      const by=p.birthDate?new Date(p.birthDate).getFullYear():'?';
-      const dy=p.deathDate?new Date(p.deathDate).getFullYear():'';
+      const by=p.birthDate||'?';
+      const dy=p.deathDate||'';
       const span=dy?`${by}–${dy}`:`*${by}`;
       return `
       <div class="person-card" onclick="app.showPersonDetail(${p.id})">
@@ -344,6 +344,7 @@ const app = {
     document.getElementById('modalTitle').textContent=this.personLabel(p);
     const father=this.persons.find(x=>x.id===p.fatherId);
     const mother=this.persons.find(x=>x.id===p.motherId);
+    const spouse=p.spouseId ? this.persons.find(x=>x.id===p.spouseId) : null;
     const children=this.persons.filter(x=>x.fatherId===p.id || x.motherId===p.id);
     let html='';
 
@@ -351,18 +352,48 @@ const app = {
       <div class="detail-label">Geburt</div>
       <div class="detail-value">${p.birthDate||'–'}${p.birthPlace?` in ${p.birthPlace}`:''}</div>
     </div>`;
-    if(p.deathDate){
+
+    if(p.baptismDate || p.baptismPlace){
       html+=`<div class="detail-section">
-        <div class="detail-label">Tod</div>
-        <div class="detail-value">${p.deathDate}${p.deathPlace?` in ${p.deathPlace}`:''}</div>
+        <div class="detail-label">Taufe</div>
+        <div class="detail-value">${p.baptismDate||'–'}${p.baptismPlace?` in ${p.baptismPlace}`:''}</div>
       </div>`;
     }
+
+    if(p.deathDate || p.deathPlace){
+      html+=`<div class="detail-section">
+        <div class="detail-label">Tod</div>
+        <div class="detail-value">${p.deathDate||'–'}${p.deathPlace?` in ${p.deathPlace}`:''}</div>
+      </div>`;
+    }
+
+    if(p.burialDate || p.burialPlace){
+      html+=`<div class="detail-section">
+        <div class="detail-label">Beerdigung</div>
+        <div class="detail-value">${p.burialDate||'–'}${p.burialPlace?` in ${p.burialPlace}`:''}</div>
+      </div>`;
+    }
+
+    if(spouse || p.marriageDate || p.marriagePlace){
+      html+=`<div class="detail-section">
+        <div class="detail-label">Ehe</div>
+        <div class="detail-value">`;
+      if(spouse){
+        html+=`🤝 <span class="chip" onclick="app.showPersonDetail(${spouse.id})">${this.personLabel(spouse)}</span><br>`;
+      }
+      if(p.marriageDate || p.marriagePlace){
+        html+=`${p.marriageDate||''}${p.marriagePlace?` in ${p.marriagePlace}`:''}`;
+      }
+      html+=`</div></div>`;
+    }
+
     if(p.occupation){
       html+=`<div class="detail-section">
         <div class="detail-label">Beruf</div>
         <div class="detail-value">${p.occupation}</div>
       </div>`;
     }
+
     if(father || mother){
       html+=`<div class="detail-section">
         <div class="detail-label">Eltern</div>
@@ -371,6 +402,7 @@ const app = {
       if(mother) html+=`👩 <span class="chip" onclick="app.showPersonDetail(${mother.id})">${this.personLabel(mother)}</span>`;
       html+='</div></div>';
     }
+
     if(children.length){
       html+=`<div class="detail-section">
         <div class="detail-label">Kinder</div>
@@ -379,12 +411,14 @@ const app = {
         </div>
       </div>`;
     }
+
     if(p.notes){
       html+=`<div class="detail-section">
         <div class="detail-label">Notizen / Quellen</div>
         <div class="detail-value">${p.notes.replace(/\n/g,'<br>')}</div>
       </div>`;
     }
+
     document.getElementById('modalBody').innerHTML=html;
     document.getElementById('personModal').classList.add('active');
   },
@@ -419,7 +453,7 @@ const app = {
       <div class="form-row">
         <div class="form-group">
           <label>Geburtsdatum</label>
-          <input type="date" name="${prefix}birthDate">
+          <input type="text" name="${prefix}birthDate" placeholder="z.B. 1830, vor 1831, um 1850">
         </div>
         <div class="form-group">
           <label>Geburtsort</label>
@@ -428,13 +462,49 @@ const app = {
       </div>
       <div class="form-row">
         <div class="form-group">
+          <label>Taufdatum</label>
+          <input type="text" name="${prefix}baptismDate" placeholder="z.B. 1850 oder um 1850">
+        </div>
+        <div class="form-group">
+          <label>Taufort</label>
+          <input name="${prefix}baptismPlace">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
           <label>Todesdatum</label>
-          <input type="date" name="${prefix}deathDate">
+          <input type="text" name="${prefix}deathDate" placeholder="z.B. 12.03.1899 oder vor 1831">
         </div>
         <div class="form-group">
           <label>Todesort</label>
           <input name="${prefix}deathPlace">
         </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Beerdigungsdatum</label>
+          <input type="text" name="${prefix}burialDate" placeholder="z.B. 1899 oder nach 1895">
+        </div>
+        <div class="form-group">
+          <label>Beerdigungsort</label>
+          <input name="${prefix}burialPlace">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Heiratsdatum</label>
+          <input type="text" name="${prefix}marriageDate" placeholder="z.B. 1875 oder vor 1878">
+        </div>
+        <div class="form-group">
+          <label>Heiratsort</label>
+          <input name="${prefix}marriagePlace">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Ehepartner/in</label>
+        <select name="${prefix}spouseId">
+          <option value="">– kein Eintrag –</option>
+        </select>
       </div>
       <div class="form-row">
         <div class="form-group">
@@ -477,6 +547,12 @@ const app = {
       if(idx>-1){
         updated.id=this.currentId;
         this.persons[idx]=updated;
+        if(updated.spouseId){
+          const partner=this.persons.find(x=>x.id===updated.spouseId);
+          if(partner && partner.spouseId!==updated.id){
+            partner.spouseId=updated.id;
+          }
+        }
         this.saveAll().then(()=>this.renderPersons());
       }
       this.closeEditModal();
@@ -494,22 +570,31 @@ const app = {
       occupation:get('occupation')||null,
       birthDate:get('birthDate')||null,
       birthPlace:get('birthPlace')||null,
+      baptismDate:get('baptismDate')||null,
+      baptismPlace:get('baptismPlace')||null,
       deathDate:get('deathDate')||null,
       deathPlace:get('deathPlace')||null,
+      burialDate:get('burialDate')||null,
+      burialPlace:get('burialPlace')||null,
+      marriageDate:get('marriageDate')||null,
+      marriagePlace:get('marriagePlace')||null,
       notes:get('notes')||null
     };
     const fid=num('fatherId'); if(fid) p.fatherId=fid;
     const mid=num('motherId'); if(mid) p.motherId=mid;
+    const sid=num('spouseId'); if(sid) p.spouseId=sid;
     return p;
   },
 
   populateParentSelects(prefix=''){
     const f=document.querySelector(`select[name="${prefix}fatherId"]`);
     const m=document.querySelector(`select[name="${prefix}motherId"]`);
+    const s=document.querySelector(`select[name="${prefix}spouseId"]`);
     if(!f || !m) return;
     const opts=this.persons.map(p=>`<option value="${p.id}">${this.personLabel(p)}</option>`).join('');
     f.innerHTML='<option value="">– keiner –</option>'+opts;
     m.innerHTML='<option value="">– keine –</option>'+opts;
+    if(s) s.innerHTML='<option value="">– kein Eintrag –</option>'+opts;
   },
 
   showAddModal(){
@@ -530,11 +615,18 @@ const app = {
     f.elements['e_occupation'].value=p.occupation||'';
     f.elements['e_birthDate'].value=p.birthDate||'';
     f.elements['e_birthPlace'].value=p.birthPlace||'';
+    f.elements['e_baptismDate'].value=p.baptismDate||'';
+    f.elements['e_baptismPlace'].value=p.baptismPlace||'';
     f.elements['e_deathDate'].value=p.deathDate||'';
     f.elements['e_deathPlace'].value=p.deathPlace||'';
+    f.elements['e_burialDate'].value=p.burialDate||'';
+    f.elements['e_burialPlace'].value=p.burialPlace||'';
+    f.elements['e_marriageDate'].value=p.marriageDate||'';
+    f.elements['e_marriagePlace'].value=p.marriagePlace||'';
     f.elements['e_notes'].value=p.notes||'';
     f.elements['e_fatherId'].value=p.fatherId||'';
     f.elements['e_motherId'].value=p.motherId||'';
+    f.elements['e_spouseId'].value=p.spouseId||'';
     document.getElementById('editModal').classList.add('active');
   },
   closeEditModal(){ document.getElementById('editModal').classList.remove('active'); },
@@ -546,6 +638,7 @@ const app = {
     this.persons.forEach(p=>{
       if(p.fatherId===this.currentId) delete p.fatherId;
       if(p.motherId===this.currentId) delete p.motherId;
+      if(p.spouseId===this.currentId) delete p.spouseId;
     });
     this.saveAll().then(()=>this.renderPersons());
     this.closeModal();
@@ -575,21 +668,39 @@ const app = {
     const events=[];
     this.persons.forEach(p=>{
       if(p.birthDate) events.push({t:'birth',date:p.birthDate,p});
+      if(p.baptismDate) events.push({t:'baptism',date:p.baptismDate,p});
+      if(p.marriageDate) events.push({t:'marriage',date:p.marriageDate,p});
       if(p.deathDate) events.push({t:'death',date:p.deathDate,p});
+      if(p.burialDate) events.push({t:'burial',date:p.burialDate,p});
     });
-    events.sort((a,b)=>new Date(a.date)-new Date(b.date));
+    events.sort((a,b)=>{
+      const parseDate=d=>{
+        if(/^\d{4}$/.test(d)) return new Date(d+'-01-01');
+        if(/^\d{4}-\d{2}$/.test(d)) return new Date(d+'-01');
+        return new Date(d);
+      };
+      return parseDate(a.date)-parseDate(b.date);
+    });
     const decades={};
     events.forEach(e=>{
-      const y=new Date(e.date).getFullYear();
+      const y=e.date.match(/\d{4}/)?.[0];
+      if(!y) return;
       const d=Math.floor(y/10)*10;
       (decades[d]||(decades[d]=[])).push(e);
     });
+    const label=t=>({
+      birth:'👶 Geboren',
+      baptism:'🕊️ Getauft',
+      marriage:'💍 Geheiratet',
+      death:'✝️ Gestorben',
+      burial:'⚰️ Beerdigt'
+    }[t]||'');
     const html=Object.keys(decades).sort().map(d=>`
       <div class="timeline-group">
         <div class="timeline-decade">${d}er Jahre</div>
         ${decades[d].map(e=>`
           <div class="timeline-event" onclick="app.showPersonDetail(${e.p.id})">
-            <strong>${new Date(e.date).getFullYear()}</strong> – ${e.t==='birth'?'👶 Geboren':'✝️ Gestorben'}: ${this.personLabel(e.p)}${e.t==='birth' && e.p.birthPlace?` in ${e.p.birthPlace}`:''}
+            <strong>${e.date}</strong> – ${label(e.t)}: ${this.personLabel(e.p)}${e.t==='birth' && e.p.birthPlace?` in ${e.p.birthPlace}`:''}
           </div>`).join('')}
       </div>`).join('');
     document.getElementById('timelineContent').innerHTML=html || '<div class="empty-state"><p>Keine Ereignisse vorhanden</p></div>';
@@ -600,7 +711,9 @@ const app = {
       {label:'Personen gesamt',value:this.persons.length},
       {label:'Männer',value:this.persons.filter(p=>p.gender==='M').length},
       {label:'Frauen',value:this.persons.filter(p=>p.gender==='F').length},
-      {label:'Mit Geburtsdatum',value:this.persons.filter(p=>p.birthDate).length}
+      {label:'Mit Geburtsdatum',value:this.persons.filter(p=>p.birthDate).length},
+      {label:'Mit Taufdatum',value:this.persons.filter(p=>p.baptismDate).length},
+      {label:'Mit Heirat',value:this.persons.filter(p=>p.marriageDate||p.spouseId).length}
     ];
     const places={};
     this.persons.forEach(p=>{ if(p.birthPlace) places[p.birthPlace]=(places[p.birthPlace]||0)+1; });
@@ -618,9 +731,12 @@ const app = {
       document.getElementById('treeContent').innerHTML='<div class="empty-state"><p>Keine Personen für den Stammbaum</p></div>';
       return;
     }
-    // Wurzel = Person ohne Vater/Mutter, älteste Generation
     const roots=this.persons.filter(p=>!p.fatherId && !p.motherId)
-      .sort((a,b)=>new Date(a.birthDate||'2100-01-01')-new Date(b.birthDate||'2100-01-01'));
+      .sort((a,b)=>{
+        const ya=a.birthDate?.match(/\d{4}/)?.[0]||'9999';
+        const yb=b.birthDate?.match(/\d{4}/)?.[0]||'9999';
+        return ya-yb;
+      });
     const root=roots[0] || this.persons[0];
 
     const levels=[];
@@ -642,8 +758,8 @@ const app = {
       <div class="tree-links">${idx===0?'Stammvater':'↓ Kinder-Generation ' + (idx+1)}</div>
       <div class="tree-level">
         ${persons.map(p=>{
-          const by=p.birthDate?new Date(p.birthDate).getFullYear():'?';
-          const dy=p.deathDate?new Date(p.deathDate).getFullYear():'';
+          const by=p.birthDate||'?';
+          const dy=p.deathDate||'';
           const span=dy?`${by}–${dy}`:`*${by}`;
           return `
             <div class="tree-node" onclick="app.showPersonDetail(${p.id})">
